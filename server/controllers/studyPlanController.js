@@ -1,15 +1,11 @@
-
 import studyPlan from '../models/StudyPlan.js';
 
-
 export const createStudyPlan = async (req, res) => {
-    const { planName, startDate, endDate, description, specialConstrains, aiSuggestions } = req.body;
-
+    const { planName, startDate, endDate, description, specialConstraints, aiSuggestion } = req.body;
 
     if (!planName || !startDate || !endDate || !description) {
         return res.status(400).json({ message: 'Please provide all required fields: planName, startDate, endDate and description.' });
     }
-
 
     try {
         const newStudyPlan = new studyPlan({
@@ -17,12 +13,11 @@ export const createStudyPlan = async (req, res) => {
             startDate,
             endDate,
             description,
-            specialConstrains,
-            aiSuggestions
+            specialConstraints,
+            aiSuggestion
         });
         const savedPlan = await newStudyPlan.save();
         return res.status(201).json({message: 'plan created successfully'}, savedPlan);
-
 
     } catch (error) {
         return res.status(500).json({ message: 'Error creating study plan', error: error.message });
@@ -38,7 +33,7 @@ export const getStudyPlans = async (req, res) => {
 }
 export const editStudyPlan = async (req, res) => {
     const { id } = req.params;
-    const { planName, startDate, endDate, description, specialConstrains, aiSuggestions } = req.body;
+    const { planName, startDate, endDate, description, specialConstraints, aiSuggestion } = req.body;
 
 
     const ifexist = await studyPlan.findById(id);
@@ -53,8 +48,8 @@ export const editStudyPlan = async (req, res) => {
             startDate,
             endDate,
             description,
-            specialConstrains,
-            aiSuggestions
+            specialConstraints,
+            aiSuggestion
         }, { new: true });
 
 
@@ -63,7 +58,6 @@ export const editStudyPlan = async (req, res) => {
         return res.status(500).json({ message: 'Error editing study plan', error: error.message });
     }
 }
-
 export const deleteStudyPlan = async (req, res) => {
     const { id } = req.params;
 
@@ -81,12 +75,3 @@ export const deleteStudyPlan = async (req, res) => {
         return res.status(500).json({ message: 'Error deleting study plan', error: error.message });
     }
 }
-
-
-
-
-
-
-
-
-
